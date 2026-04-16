@@ -1,43 +1,47 @@
 # A Student's Guide to Building a Multi-AI Workflow
 
 ## Why One AI Isn't Enough
-When I started looking into using AI for my cybersecurity and networking projects, I realized that relying on just one tool is a trap. Every AI has its own "vibe" and its own set of blind spots. If you let Claude write your code and then ask Claude to review it, it's probably going to tell you it looks great even if there's a subtle logic bug. By bringing in other "brains" like Qwen or the new Codex, you create a checks-and-balances system that actually catches mistakes before they break your lab environment.
+When I started looking into using AI for my cybersecurity and networking projects, I realized that relying on just one tool is a trap. Every AI has its own vibe and its own set of blind spots based on its training data. If you let Claude write your code and then ask Claude to review it, it is likely to rubber-stamp its own logic or miss the same edge cases it overlooked during drafting. By bringing in other brains like Qwen or Codex, you create a checks and balances system. However, even with two AIs, they can both be wrong or hallucinate in similar ways if the prompt is ambiguous. It is not a magic bullet, but it is a much stronger filter than working solo.
 
 ---
 
-## My Recommended Setup (The "Polyglot" Stack)
+## My Recommended Setup (The Polyglot Stack)
 
 ### 1. Heavy Coding and Refactoring: Claude 3.7 Sonnet + Qwen 3.5 Coder
-Claude 3.7 Sonnet is currently the king of "thinking" through a problem. When I have a complex script that needs to handle a lot of different cases, I use Claude to build the foundation. However, I always run the final diff through **Qwen 3.5 Coder**. 
+Claude 3.7 Sonnet is currently the leader for thinking through architectural problems. When I have a complex script, I use Claude to build the foundation. However, I always run the final diff through Qwen 3.5 Coder. 
 
-Qwen is awesome because it's trained on a massive amount of open-source code that Claude sometimes misses. It’s more "direct" and great at spotting simple efficiency issues or security flaws that Claude might have over-engineered. Think of Claude as the architect and Qwen as the cynical site inspector who's seen everything go wrong before.
+Qwen is useful because it is an open-weight model with a different training focus, making it great at spotting simple efficiency issues or Western-bias logic patterns that Claude might miss. Users should be careful because Qwen can sometimes be more literal and might miss the higher-level intent of your code. You still need to be the lead architect; the AI is just the inspector.
 
 ### 2. Cybersecurity Research: GPT-5.4-Cyber (Codex) + Perplexity
-For the security side of things, the specialized **GPT-5.4-Cyber** model is a game changer. It's fine-tuned specifically for defensive tasks and understanding how vulnerabilities work at a memory level. 
+For the security side, the GPT-5.4-Cyber variant is a massive help for vulnerability discovery. It features a 2 million token context window, allowing you to audit entire repositories at once.
 
-When I need to stay on top of the latest 0-days or find out what’s happening in the threat landscape right now, I use **Perplexity Deep Research**. It doesn't just guess; it actually crawls the web, hits obscure forums, and gives you real links to follow. It’s like having a dedicated research assistant who never sleeps.
+There is a reality check here. While a 2 million token window sounds like you can just dump and forget, accuracy starts to fall off significantly as you fill it up. This is a phenomenon called context rot. Without a proper memory management system or Retrieval-Augmented Generation (RAG) to pre-filter data, the AI can forget the middle of the document or start to hallucinate details that are not actually there. It is great for finding a specific needle in a haystack, but it struggles with complex reasoning across millions of tokens.
+
+For staying on top of the latest zero-days, I use Perplexity Deep Research. Unlike a standard chatbot, it actually crawls the web and provides real citations. The catch is that Perplexity can sometimes get overwhelmed by SEO spam or conflicting reports on new vulnerabilities. You have to verify the sources it gives you. It is important not to just copy and paste its summaries into your lab reports without checking the primary CVE data.
 
 ### 3. Networking and Logs: Gemini 1.5 Pro
-Networking is all about data volume. If you're looking at a 100MB packet capture or a month's worth of firewall logs, most AIs will just crash or "forget" the beginning of the file. **Gemini 1.5 Pro** has a 2-million-token context window, which is insane. You can literally drop a massive log file into it and ask "where did this specific IP first touch my internal network?" and it will find the needle in the haystack every time.
+Networking involves massive amounts of data. Gemini 1.5 Pro also supports huge context windows, which is perfect for ingesting large packet captures or firewall logs. 
+
+Just like Codex, Gemini suffers from the same long-context degradation. If you ask it to summarize traffic patterns across 100MB of logs, it might miss subtle sequences or get distracted by noise. For the best results, you should still use tools like grep or Wireshark filters to narrow down your data before handing it to the AI for analysis.
 
 ---
 
 ## How to Make Them Talk to Each Other
-The secret sauce is the **Model Context Protocol (MCP)**. It's basically a universal translator that lets these different AIs use the same tools. You can set up an MCP server for your local files or your terminal, and then both Claude and Codex can see exactly what you're working on.
+The Model Context Protocol (MCP) is the glue that lets these different AIs use the same tools. You can set up an MCP server for your local files or your terminal, and then both Claude and Codex can see your actual project state.
 
-I also like to "pipe" my workflow. I'll have Claude generate a script, pipe that output into a file, and then tell a Qwen agent to review that file. It sounds like extra work, but it saves hours of debugging later on.
+There is a limitation to this approach. Setting up MCP requires technical overhead, and over-relying on agentic workflows can lead to infinite loops where two agents pass a task back and forth, burning through your API credits without actually fixing the bug. You have to maintain human-in-the-loop control to keep them on track.
 
 ---
 
 ## Is It Worth the Cost?
-If you're a student, paying for multiple Pro subscriptions ($20 each) feels like a lot. But if you think about it as hiring a team of experts for the price of a few pizzas a month, it's a steal. The time you save on the "boring" stuff (like writing boilerplate or searching for documentation) lets you focus on the actual engineering and red or blue teaming.
+As a student, paying for multiple Pro subscriptions ($20 each) is a significant investment. For me, the time saved on boilerplate and the improved bug detection in my security labs makes it worth it. However, if you are not yet comfortable with the underlying networking or coding concepts, having three different AIs give you conflicting advice will just make you more confused. It is a tool for scaling your skills, not a replacement for learning them.
 
 ---
 
-## Sources to Check Out
-* **Anthropic (Claude 3.7 Sonnet):** Research on "Hybrid Reasoning" and visible thinking tokens. (anthropic.com)
-* **Alibaba Qwen (Qwen 3.5 Coder):** Benchmarks for the 27B and 397B open-weight models. (qwen.ai)
-* **OpenAI (GPT-5.4-Codex):** Documentation on the new agentic engineering platform and Cyber variant. (openai.com)
-* **Google DeepMind (Gemini 1.5 Pro):** Technical paper on the 2M context window and long-context retrieval. (deeplearning.ai)
-* **Model Context Protocol (MCP):** The official standard for AI tool integration. (modelcontextprotocol.io)
-* **Perplexity AI:** Insights into "Deep Research" mode and agentic search. (perplexity.ai)
+## Sources and Further Reading
+* Anthropic (Claude 3.7 Sonnet): Technical reports on Visible Reasoning and its impact on coding accuracy. (anthropic.com)
+* Alibaba Qwen: Benchmarks for Qwen 3.5 Coder on HumanEval and LiveCodeBench. (qwen.ai)
+* OpenAI (GPT-5.4-Codex): Documentation on the 2 million token window and the specialized Cyber variant. (openai.com)
+* Context Rot Research: Studies by Stanford and UC Berkeley on accuracy degradation and "Lost in the Middle" in long-context LLMs. (arxiv.org)
+* Google DeepMind (Gemini 1.5 Pro): Testing the limits of long-context retrieval in forensic analysis. (deeplearning.ai)
+* Model Context Protocol (MCP): Official documentation for the open-standard orchestration layer. (modelcontextprotocol.io)
