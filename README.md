@@ -8,3 +8,4 @@ The goal is simple: keep things neat, easy to browse, and all in one place.
 
 - [A Student's Guide to Multi AI](./A-Students-Guide-to-Multi-AI.md)
 - [AI Driven Attacks and Defense](./AI-Driven-Attacks-and-Defense.md)
+- [Local Qwen AI Coding Agent Setup](./Local-Qwen-AI-Coding-Agent-Setup.md)
