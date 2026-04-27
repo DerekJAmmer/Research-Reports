@@ -1,5 +1,38 @@
 # **Architecting Autonomous Local AI Coding Agents: A Comprehensive Deployment Guide for Qwen 3.6 on Consumer Hardware**
 
+## Table of Contents
+
+- [The Paradigm Shift in Autonomous Software Engineering](#the-paradigm-shift-in-autonomous-software-engineering)
+- [Architectural Deep Dive: The Qwen 3.6 Ecosystem](#architectural-deep-dive-the-qwen-36-ecosystem)
+  - [The Qwen3.6-27B Dense Architecture](#the-qwen36-27b-dense-architecture)
+  - [The Qwen3.6-35B-A3B Mixture-of-Experts Architecture](#the-qwen36-35b-a3b-mixture-of-experts-architecture)
+  - [The Paradigm of Thinking Preservation](#the-paradigm-of-thinking-preservation)
+- [The Physics of Hardware: VRAM, System RAM, and Bandwidth](#the-physics-of-hardware-vram-system-ram-and-bandwidth)
+  - [The 48GB Desktop Workstation Environment](#the-48gb-desktop-workstation-environment)
+  - [The 16GB to 32GB Gaming Laptop Environment](#the-16gb-to-32gb-gaming-laptop-environment)
+- [The Mathematics of Quantization and Format Selection](#the-mathematics-of-quantization-and-format-selection)
+- [Backend Infrastructure: Operating Systems and Inference Engines](#backend-infrastructure-operating-systems-and-inference-engines)
+  - [The Windows Subsystem for Linux Environment](#the-windows-subsystem-for-linux-environment)
+  - [Evaluation of Inference Engines](#evaluation-of-inference-engines)
+- [Agentic Frameworks: Scaffolding the Cognitive Engine](#agentic-frameworks-scaffolding-the-cognitive-engine)
+  - [1. Qwen Code CLI](#1-qwen-code-cli)
+  - [2. Aider](#2-aider)
+  - [3. OpenHands (formerly OpenDevin)](#3-openhands-formerly-opendevin)
+- [Critical Deployment Configurations and Nuances](#critical-deployment-configurations-and-nuances)
+  - [Context Window Sizing and KV Cache Management](#context-window-sizing-and-kv-cache-management)
+  - [Implementing Thinking Preservation](#implementing-thinking-preservation)
+  - [Sampling Parameters for Deterministic Coding](#sampling-parameters-for-deterministic-coding)
+- [Step-by-Step Implementation Guide](#step-by-step-implementation-guide)
+  - [Phase 1: Environment Preparation](#phase-1-environment-preparation)
+  - [Phase 2: Model Procurement and Inference Deployment](#phase-2-model-procurement-and-inference-deployment)
+  - [Phase 3: Agentic Framework Configuration](#phase-3-agentic-framework-configuration)
+  - [Phase 4: Execution and Interaction](#phase-4-execution-and-interaction)
+- [Optimization, Troubleshooting, and System Mechanics](#optimization-troubleshooting-and-system-mechanics)
+  - [Resolving Infinite Tool-Calling Loops](#resolving-infinite-tool-calling-loops)
+  - [Mitigating Hardware Resource Exhaustion](#mitigating-hardware-resource-exhaustion)
+- [Strategic Outlook and Conclusions](#strategic-outlook-and-conclusions)
+    - [Works cited](#works-cited)
+
 ## **The Paradigm Shift in Autonomous Software Engineering**
 
 The landscape of artificial intelligence in software development has undergone a profound structural transformation by the second quarter of 2026\. The historical reliance on cloud-based application programming interfaces for autonomous coding agents is increasingly being supplanted by localized, hardware-native deployments.1 This transition from operational expenditure models, characterized by subscription fees, rate limits, and per-token costs, to capital expenditure models, leveraging personal consumer hardware, is driven by the rapid compression of frontier-level capabilities into highly quantized, open-weight models.3 Deploying a local coding agent guarantees absolute codebase privacy, eliminates the latency jitter inherently associated with network requests, and permits unbounded autonomous execution loops without the financial penalty of metered API usage.2
